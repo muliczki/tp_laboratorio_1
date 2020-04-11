@@ -8,6 +8,8 @@
 //usar double
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdlib.h>
+#include <windows.h>
 #include "funciones.h"
 
 int main() {
@@ -109,12 +111,15 @@ int main() {
 
 
 	system("pause");
+	system("cls");
+
+
 
 	}while (respuesta!=5);
 
 	printf("\nGracias por utilizar nuestra calculadora!");
 
-
+ ////// OJO ME FALTA EL FRACTORIAL !!!!!!!!!!!
 
 	return EXIT_SUCCESS;
 }
