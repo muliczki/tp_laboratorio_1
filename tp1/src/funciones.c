@@ -25,10 +25,22 @@ float Dividir (float numero_uno, float numero_dos)
 }
 
 // d) Calcular la multiplicacion (A*B)
-float Multiplicar (float numero_uno, float numero_dos)
+double Multiplicar (float numero_uno, float numero_dos)
 {
-	float multiplicacion;
+	double multiplicacion;
 	multiplicacion = numero_uno * numero_dos;
 	return multiplicacion;
 }
 
+
+double Factorial (int numero)
+{
+	int i;
+	int fractorial=1;
+
+	for (i=numero; i>0; i--)
+	{
+		fractorial *= i;
+	}
+	return fractorial;
+}
