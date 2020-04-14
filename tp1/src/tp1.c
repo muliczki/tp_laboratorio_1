@@ -2,10 +2,10 @@
  ============================================================================
  Name        : tp1.c
  Author      : Uliczki Micaela
+ SO          : Windows 10
  ============================================================================
  */
 
-//usar double
 #include <stdio.h>
 #include <stdlib.h>
 #include "funciones.h"
@@ -14,10 +14,9 @@ int main() {
 	setbuf(stdout, NULL);
 
 	float a, b, suma, resta, division, compareA, compareB;
-	double multiplicacion;
-	int respuesta, intA, intB, factorialA, factorialB;
+	double multiplicacion, factorialA, factorialB;
+	int respuesta, intA, intB;
 	int flaga = 0, flagb = 0, flag3 = 0, flagceroB = 0, errorFacA = 0, errorFacB = 0;
-
 
 	do{
 
@@ -47,13 +46,13 @@ int main() {
 	switch(respuesta)
 	{
 		case 1:
-			printf("\n1. Ingresar 1er operando (A=x): ");
+			printf("\n1. Ingresar 1er operando (A=x): \n");
 			scanf("%f",&a);
 			flaga=1; // me informa que ya ingrese un numero como A
 			break;
 
 		case 2:
-			printf("\n2. Ingresar 2do operando (B=y): ");
+			printf("\n2. Ingresar 2do operando (B=y): \n");
 			scanf("%f",&b);
 			flagb=1; // me informa que ya ingrese un numero como B
 			break;
@@ -61,11 +60,12 @@ int main() {
 		case 3:
 			if(flaga==0 || flagb==0)   // si no ingrese los dos numeros no puedo calcular
 			{
-			printf("\nNo has elegido dos operandos. Por favor, realizalo para poder calcular las operaciones.\n");
+			printf("\nNo has elegido dos operandos.\n"
+					"Por favor, realizalo para poder calcular las operaciones.\n\n");
 			}
 			else
 			{
-			printf("\nEstamos calculando tus operaciones!!\n");
+			printf("\nEstamos calculando tus operaciones!!\n\n");
 			flag3 = 1; // me dice que ya ingrese la opcion 3
 			suma = Sumar(a, b);
 			resta = Restar(a, b);
@@ -118,30 +118,31 @@ int main() {
 		case 4:
 			if(flag3==0) // si no pedi calcular, no puedo informar resultados
 			{
-			printf("\nNo has seleccionado la opcion para calcular. Por favor, realizalo para poder mostrarte los resultados.\n");
+			printf("\nNo has seleccionado la opcion para calcular.\n"
+					"Por favor, realizalo para poder mostrarte los resultados.\n\n");
 			}
 			else
 			{
-			printf("\nLa suma es: %.2f", suma);
-			printf("\nLa resta es: %.2f", resta);
+			printf("\nA. La suma entre %.2f y %.2f es: %.2f", a, b, suma);
+			printf("\nB. La resta entre %.2f y %.2f es: %.2f", a, b, resta);
 			if(flagceroB==1)
 			{
-			printf("\nNo es posible dividir por cero");
+			printf("\nC. No es posible dividir por cero");
 			}else
 			{
-			printf("\nLa division es: %.2f", division);
+			printf("\nC. La division entre %.2f y %.2f es: %.2f", a, b, division);
 			}
-			printf("\nEl producto es: %.2f", multiplicacion);
+			printf("\nD. El producto entre %.2f y %.2f es: %.2f", a, b, multiplicacion);
 			if(errorFacA==1)
 			{
-			printf("\nNo se puede calcular el fractorial de %.2f ",a);
+			printf("\nE. No se puede calcular el factorial de %.2f ",a);
 			} else
-			printf("\nEl fractorial de %.0f es: %d ", a, factorialA);
+			printf("\nE. El factorial de %.0f es: %.0f ", a, factorialA);
 			if(errorFacB==1)
 			{
-			printf(" y no se puede calcular el fractorial de %.2f.\n",b);
+			printf(" y no se puede calcular el factorial de %.2f.\n\n",b);
 			} else
-			printf("y el fractorial de %.0f es: %d.\n", b, factorialB);
+			printf("y el factorial de %.0f es: %.0f.\n\n", b, factorialB);
 			}
 	}
 
@@ -153,11 +154,9 @@ int main() {
 
 	}while (respuesta!=5);
 
-	printf("\nGracias por utilizar nuestra calculadora!\n\n");
+	printf("Gracias por utilizar nuestra calculadora!\n\n");
 
 	system("pause");
- ////// OJO ME FALTA EL FRACTORIAL !!!!!!!!!!!
-
 
 
 	return EXIT_SUCCESS;
