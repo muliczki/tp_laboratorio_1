@@ -2,7 +2,7 @@
  ============================================================================
  Name        : tp1.c
  Author      : Uliczki Micaela
- SO          : Windows 10
+ SO          : Windows 10 - Eclipse
  ============================================================================
  */
 
@@ -103,16 +103,16 @@ int main() {
 			}
 
 			if (b<0 || compareB!=0)
-						{
-							errorFacB=1;
-						}
-						else if (b==0)
-						{
-							factorialB=1;
-						}else
-						{
-							factorialB = Factorial(intB);
-						}
+			{
+			errorFacB=1;
+			}
+			else if (b==0)
+			{
+			factorialB=1;
+			}else
+				{
+					factorialB = Factorial(intB);
+				}
 			break;
 
 		case 4:
@@ -148,7 +148,7 @@ int main() {
 
 
 	system("\n pause");
-	system("cls");
+	system("cls");   // no funciona en eclipse
 
 
 
