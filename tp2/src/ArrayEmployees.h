@@ -5,6 +5,8 @@
 #define FALSE 0
 #define UP 1
 #define DOWN 0
+#define HARD 5
+
 
 typedef struct
 {
@@ -16,13 +18,17 @@ int sector;
 int isEmpty;
 } Employee;
 
-void hardcodear(Employee list[]);
+
+
+int hardcodear(Employee list[], int len);
 
 int mostrarMenu(void);
 
 int preguntarPrimeraCarga(int flag);
 
 int initEmployees(Employee list[], int len);
+
+int addEmployee(Employee list[], int len, int id, char name[],char lastName[],float salary,int sector);
 
 Employee cargarUnEmployee(Employee list[], int len);
 

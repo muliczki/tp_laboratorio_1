@@ -1,11 +1,43 @@
 #include "ArrayEmployees.h"
 
-/*
- void hardcodear(Employee list[])
-{
-	Employee list[0] = {1, "Ana", "Garcia", 25000, 4, 0};
+
+int hardcodear(Employee list[], int len)
+ {
+	int i;
+	char nombres[HARD][51] = {"Ana","Lucas","Maria Soledad","Juan Martin", "Julio"};
+	char apellidos[HARD][51] = {"Garcia","Lopez","Perez","Ramirez", "Tunez"};
+	float salarios[HARD] = { 25000, 40000 ,35650.555, 27500, 33500.75 };
+	int sectores[HARD] = {4, 2 ,3, 3, 5};
+	int vacios[HARD] = {FALSE, FALSE, FALSE, FALSE, FALSE};
+
+	if(HARD<len)
+	{
+		for(i=0; i < HARD; i++)
+		{
+	     list[i].id=i+1;
+	     strcpy(list[i].name,nombres[i]);
+	     strcpy(list[i].lastName,apellidos[i]);
+	     list[i].salary=salarios[i];
+	     list[i].sector=sectores[i];
+	     list[i].isEmpty=vacios[i];
+		}
+		return i; //me devuelve i=5, el i=5 no esta ocupado, lo puedo usar, por eso no ingreso en el for.
+	}
+	else
+	{
+		return -1; //no hay lugar
+	}
+
 }
-*/
+
+/*
+= {{1, "Ana", "Garcia", 25000, 4, 0},
+		{2, "Lucas", "Lopez", 40000, 2, 0},
+		{3, "Juan Martin", "Acosta", 45750.255, 1, 0},
+		{4, "Maria Soledad", "Tunez", 37800.5, 2, 0},
+		{5, "Julio", "Garcia", 32300, 2, 0}};
+		*/
+
 
 
 
@@ -22,7 +54,7 @@ int initEmployees(Employee list[], int len)
 	int i;
 	for(i=0; i<len; i++)
 		{
-		list[i].isEmpty=TRUE;
+		list[i].isEmpty=TRUE; //TRUE ES 1
 		}
 	return 0;
 }
@@ -310,7 +342,7 @@ int preguntarPrimeraCarga(int flag)
 	int estado;
 	if(flag == 0)
 	{
-		printf("No ha cargado ningun empleado. Por favor, realicelo.\n");
+		printf("No se ha cargado ningun empleado. Por favor, realicelo.\n");
 		estado=-1;
 	}else
 	{

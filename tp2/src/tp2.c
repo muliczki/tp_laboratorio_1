@@ -17,26 +17,20 @@
 int main(void) {
 	setbuf(stdout, NULL);
 
-	Employee listaEmployee[T]= {{1, "Ana", "Garcia", 25000, 4, 0},
-								{2, "Lucas", "Lopez", 40000, 2, 0},
-								{3, "Juan Martin", "Acosta", 45750.255, 1, 0},
-								{4, "Maria Soledad", "Tunez", 37800.5, 2, 0},
-								{5, "Julio", "Garcia", 32300, 2, 0}};
+	Employee listaEmployee[T];
+
 	int respuesta;
 	int idParaValidar;
 	int situacionBorrar;
 	int situacionModificar;
 	int flagPrimeraCarga=0;
 	int preguntaPrimeraCarga;
-	int i=5;  //HARDCODEO
+	int i;
+
 
 	initEmployees(listaEmployee, T);
-	listaEmployee[0].isEmpty=0;  //HARDCODEO
-	listaEmployee[1].isEmpty=0;  //HARDCODEO
-	listaEmployee[2].isEmpty=0;  //HARDCODEO
-	listaEmployee[3].isEmpty=0;  //HARDCODEO
-	listaEmployee[4].isEmpty=0;  //HARDCODEO
 
+	i = hardcodear(listaEmployee, T);
 
 
 	do{
@@ -45,13 +39,12 @@ int main(void) {
 
 		switch(respuesta)
 		{
-				case 1:
-				{
+				case 1: //no me anda cargar
 					listaEmployee[i]= cargarUnEmployee(listaEmployee,T);
 					i++;
 					flagPrimeraCarga=1;
 					break;
-				}
+
 
 				case 2:
 				{
