@@ -1,10 +1,8 @@
 /*
  ============================================================================
  Name        : tp2.c
- Author      : 
- Version     :
- Copyright   : Your copyright notice
- Description : Hello World in C, Ansi-style
+ Author      : Uliczki Micaela - 1F
+ Description : Windows 10 - Eclipse
  ============================================================================
  */
 
@@ -12,6 +10,8 @@
 #include <stdlib.h>
 #include "ArrayEmployees.h"
 #define T 1000
+#define UP 1
+#define DOWN 0
 
 
 int main(void) {
@@ -21,16 +21,20 @@ int main(void) {
 
 	int respuesta;
 	int idParaValidar;
-	int situacionBorrar;
+	int estado;
+	int id;
 	int situacionModificar;
 	int flagPrimeraCarga=0;
 	int preguntaPrimeraCarga;
-	int i;
 
 
-	initEmployees(listaEmployee, T);
+	estado = initEmployees(listaEmployee, T);
+	if(estado==-1)
+	{
+		printf("Error. No hay espacio.\n\n");
+	}
 
-	i = hardcodear(listaEmployee, T);
+	id = hardcodear(listaEmployee, T);
 
 
 	do{
@@ -39,40 +43,36 @@ int main(void) {
 
 		switch(respuesta)
 		{
-				case 1: //no me anda cargar
-					listaEmployee[i]= cargarUnEmployee(listaEmployee,T);
-					i++;
+				case 1:
+					estado = cargarEmpleado(listaEmployee,T, id);
+					id++;
 					flagPrimeraCarga=1;
 					break;
 
 
 				case 2:
-				{
 					preguntaPrimeraCarga = preguntarPrimeraCarga(flagPrimeraCarga);
 					if(preguntaPrimeraCarga==1)
 					{
-						idParaValidar = pedirUnId("modificar", listaEmployee, T);
+						idParaValidar = pedirleIdAlUsuario(listaEmployee, T);
 						situacionModificar = modifyEmployee(listaEmployee, T, idParaValidar);
 						analizarSituacion(situacionModificar,"Modificacion");
 					}
 					break;
-					}
+
 
 				case 3:
-				{
 					preguntaPrimeraCarga = preguntarPrimeraCarga(flagPrimeraCarga);
 					if(preguntaPrimeraCarga==1)
 					{
-						idParaValidar =pedirUnId("eliminar", listaEmployee, T);
-						situacionBorrar =removeEmployee(listaEmployee, T, idParaValidar);
-						analizarSituacion(situacionBorrar,"Eliminacion");
+						idParaValidar = pedirleIdAlUsuario(listaEmployee, T);
+						estado =removeEmployee(listaEmployee, T, idParaValidar);
+						analizarSituacion(estado,"Eliminacion");
 
 					}
 					break;
-				}
 
 				case 4:
-				{
 					preguntaPrimeraCarga = preguntarPrimeraCarga(flagPrimeraCarga);
 					if(preguntaPrimeraCarga==1)
 					{
@@ -80,11 +80,10 @@ int main(void) {
 					mostrarEmployees(listaEmployee, T);
 					}
 					break;
-				}
 
 		}
 	system("pause");
-	system("cls");
+	system("cls"); //en eclipse no funciona
 
 
 	}while(respuesta!=5);
