@@ -10,8 +10,7 @@
 #include <stdlib.h>
 #include "ArrayEmployees.h"
 #define T 1000
-#define UP 1
-#define DOWN 0
+
 
 
 int main(void) {
@@ -23,7 +22,6 @@ int main(void) {
 	int idParaValidar;
 	int estado;
 	int id;
-	int situacionModificar;
 	int flagPrimeraCarga=0;
 	int preguntaPrimeraCarga;
 
@@ -31,7 +29,7 @@ int main(void) {
 	estado = initEmployees(listaEmployee, T);
 	if(estado==-1)
 	{
-		printf("Error. No hay espacio.\n\n");
+		analizarSituacion(estado,"Inicio");
 	}
 
 	id = hardcodear(listaEmployee, T);
@@ -45,6 +43,7 @@ int main(void) {
 		{
 				case 1:
 					estado = cargarEmpleado(listaEmployee,T, id);
+					analizarSituacion(estado,"Carga");
 					id++;
 					flagPrimeraCarga=1;
 					break;
@@ -54,9 +53,9 @@ int main(void) {
 					preguntaPrimeraCarga = preguntarPrimeraCarga(flagPrimeraCarga);
 					if(preguntaPrimeraCarga==1)
 					{
-						idParaValidar = pedirleIdAlUsuario(listaEmployee, T);
-						situacionModificar = modifyEmployee(listaEmployee, T, idParaValidar);
-						analizarSituacion(situacionModificar,"Modificacion");
+						idParaValidar = pedirleIdAlUsuario(listaEmployee, T, "MODIFICAR");
+						estado = modifyEmployee(listaEmployee, T, idParaValidar);
+						analizarSituacion(estado,"Modificacion");
 					}
 					break;
 
@@ -65,7 +64,7 @@ int main(void) {
 					preguntaPrimeraCarga = preguntarPrimeraCarga(flagPrimeraCarga);
 					if(preguntaPrimeraCarga==1)
 					{
-						idParaValidar = pedirleIdAlUsuario(listaEmployee, T);
+						idParaValidar = pedirleIdAlUsuario(listaEmployee, T, "ELIMINAR");
 						estado =removeEmployee(listaEmployee, T, idParaValidar);
 						analizarSituacion(estado,"Eliminacion");
 
@@ -76,8 +75,14 @@ int main(void) {
 					preguntaPrimeraCarga = preguntarPrimeraCarga(flagPrimeraCarga);
 					if(preguntaPrimeraCarga==1)
 					{
-					sortEmployees(listaEmployee, T, DOWN);
-					mostrarEmployees(listaEmployee, T);
+						estado = sortEmployees(listaEmployee, T, DOWN);
+						if(estado==0)
+						{
+							estado = mostrarEmployees(listaEmployee, T);
+						}
+
+						mostrarEstadisticas(listaEmployee, T);
+
 					}
 					break;
 
@@ -89,6 +94,13 @@ int main(void) {
 	}while(respuesta!=5);
 
 
+	printf("Gracias por utilizar nuestro programa!\n\n");
+	system("pause");
+
 
 	return EXIT_SUCCESS;
 }
+
+
+
+

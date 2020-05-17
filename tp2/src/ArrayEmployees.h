@@ -2,7 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-
+#define UP 1
+#define DOWN 0
 #define TRUE 1
 #define FALSE 0
 
@@ -19,80 +20,83 @@ int isEmpty;
 } typedef Employee;
 
 
+
 // inicializo en cero
+
 int initEmployees(Employee list[], int len);
 
 // hardcodeo datos en el array para testear
+
 int hardcodear(Employee list[], int len);
 
 // agregar empleados
-int buscarLibre (Employee* list, int len);
 
 int cargarEmpleado(Employee* list, int len, int id);
 
-int addEmployee(Employee list[], int len, int id, char name[],char lastName[],float salary,int sector);
+	int addEmployee(Employee list[], int len, int id, char name[],char lastName[],float salary,int sector);
 
-void getString(char palabra[], char texto[] );
+		int buscarLibre (Employee* list, int len);
+
+		void getString(char palabra[], char texto[] );
 
 
-
+// funciones varias del main
 
 int mostrarMenu(void);
 
 int preguntarPrimeraCarga(int flag);
 
+void analizarSituacion (int situacion, char texto[]);
 
 
 
-void mostrarUnEmployee(Employee list[], int index);
+// mostrar empleados
 
 int mostrarEmployees(Employee list[], int len);
 
+	void mostrarUnEmployee(Employee list[], int index);
 
 
+// funciones vinculadas al id
 
-
-int cargarId (Employee list[], int len);
-
-
+int pedirleIdAlUsuario (Employee list[], int len, char texto[]);
 
 int findEmployeeById(Employee list[], int len, int idIngresadoPorUsuario);
 
 
 
+// funciones de remover y modificar
 
 int removeEmployee (Employee list[], int len, int id);
 
 int modifyEmployee (Employee list[], int len, int id);
 
+	int modificarString(char texto[], Employee list[], int len, int id);
 
-char* formatearNombres (Employee unEmpleado);
+	int modificarFlotante(char texto[], Employee list[], int len, int id);
+
+	int modificarEntero(char texto[], Employee list[], int len, int id);
 
 
-int modificarString(char texto[], Employee list[], int len, int id);
 
-int modificarFlotante(char texto[], Employee list[], int len, int id);
+// ordenar array
 
-int modificarEntero(char texto[], Employee list[], int len, int id);
-
-void analizarSituacion (int situacion, char texto[]);
-
-void sortEmployees(Employee* list, int len, int order);
+int sortEmployees(Employee* list, int len, int order);
 
 void ordenarEmployeesPorId (Employee* list, int len);
 
 
+// calcular estadisticas y mostrar
 
+int obtenerCantidadEmpleados (Employee* list, int len);
 
+float obtenerTotalSueldos (Employee* list, int len);
 
+float promediarSueldos (float totalSueldos, int cantidadEmpleados);
 
+int contarEmpleadosMayorAlPromedio (Employee* list, int len, float promedioSueldos);
 
-
-int pedirleIdAlUsuario (Employee list[], int len);
-
-int buscarId(Employee list[], int len, int idIngresadoPorUsuario);
-
-int posicionDelId (Employee list[], int len, int id);
+void mostrarEstadisticas (Employee* list, int len);
 
 
 

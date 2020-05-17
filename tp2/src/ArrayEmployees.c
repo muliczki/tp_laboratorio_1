@@ -34,10 +34,10 @@ int initEmployees(Employee list[], int len)
 int hardcodear(Employee list[], int len)
  {
 	int i;
-	int id[5]= {1,2,3,4,5};
+	int id[5]= {2,5,4,3,1};
 	char nombres[5][51] = {"Ana","Lucas","Maria Soledad","Juan Martin", "Julio"};
 	char apellidos[5][51] = {"Garcia","Lopez","Perez","Ramirez", "Tunez"};
-	float salarios[5] = { 25000, 40000 ,35650.555, 27500, 33500.75 };
+	float salarios[5] = { 25000, 40000 ,35650.25, 27500, 33500.75 };
 	int sectores[5] = {4, 2 ,3, 3, 5};
 	int vacios[5] = {FALSE, FALSE, FALSE, FALSE, FALSE};
 
@@ -52,7 +52,7 @@ int hardcodear(Employee list[], int len)
 	     list[i].sector=sectores[i];
 	     list[i].isEmpty=vacios[i];
 		}
-		return id[4]+1; //me devuelve el primer id sin usar
+		return i+1; //i es 5 por eso sale del for, me devuelve el primer id sin usar
 	}
 	else
 	{
@@ -106,7 +106,7 @@ int addEmployee(Employee* list, int len, int id, char name[],char lastName[],flo
     if(indiceEncontrado!= -1) //encontro lugar
     {
         printf("\n---------------------------------------------------");
-        printf("\n              ALTA EMPLEADO                   ");
+        printf("\n                  ALTA EMPLEADO                   ");
         printf("\n---------------------------------------------------\n");
 
         //si encuentro lugar, pido los datos
@@ -138,6 +138,7 @@ int addEmployee(Employee* list, int len, int id, char name[],char lastName[],flo
 }
 
 
+
 /** \brief search in a existing list of employees the first empty position
 * \param list employee*
 * \param len int
@@ -157,6 +158,8 @@ int buscarLibre (Employee* list, int len)
     }
     return indice;
 }
+
+
 
 /** \brief pedirle al usuario un string y formatearlo (elimino salto de linea del fgets y paso a minuscula el string y primeras letras mayusculas)
 * \param char string, que lo completa el usuario
@@ -193,11 +196,20 @@ void getString(char palabra[], char texto[] )
 
 
 
-
+/** \brief print the content of one employee array
+*
+* \param list Employee*
+* \param index int
+* \return void
+*
+*/
 void mostrarUnEmployee(Employee list[], int index)
 {
-		printf("%5d %15s %15s %12.2f %5d\n",list[index].id, list[index].name, list[index].lastName, list[index].salary, list[index].sector);
+		printf("%5d %15s %15s %12.2f %4d\n",list[index].id, list[index].name, list[index].lastName, list[index].salary, list[index].sector);
 }
+
+
+
 
 /** \brief print the content of employees array
 *
@@ -214,7 +226,8 @@ int mostrarEmployees(Employee list[], int len)
 		return -1;
 	}else
 	{
-	printf("%5s - %15s - %15s - %12s - %5s\n", "ID", "NOMBRE", "APELLIDO", "SUELDO", "SECTOR");
+	printf("\n\n");
+	printf("%3s %13s %15s %14s %8s\n", "ID", "NOMBRE", "APELLIDO", "SUELDO", "SECTOR");
 	for(i=0; i<len;i++)
 		{
 			if(list[i].isEmpty==FALSE)
@@ -228,21 +241,27 @@ int mostrarEmployees(Employee list[], int len)
 
 
 
+/** \brief Remove a Employee by Id (put isEmpty Flag in 1)
+*
+* \param list Employee*
+* \param len int
+* \param id int
+* \return int Return (-1) if Error [Invalid length or NULL pointer or if can'tfind a employee] - (0) if Ok - (1) remove cancelled.
+*
+*/
 int removeEmployee (Employee list[], int len, int id)
 {
-	int situacion;
 	int posicionId;
 	char respuesta;
-	situacion = findEmployeeById(list, len, id);
 
-	if(situacion==-1)
+	posicionId = findEmployeeById(list, len, id);
+
+	if(posicionId==-1)
 	{
 		return -1;   // no se encontro el ID
 
 	}else
 	{
-		posicionId = posicionDelId(list, len, id);
-
 		printf("Esta por borrar el ID %d - %s %s - desea confirmar? s/n: ",id, list[posicionId].name, list[posicionId].lastName);
 		fflush(stdin);
 		scanf("%c",&respuesta);
@@ -250,46 +269,38 @@ int removeEmployee (Employee list[], int len, int id)
 		{
 			list[posicionId].isEmpty=TRUE;
 			printf("\nSe ha eliminado el ID %d - %s %s - de la base.\n", id, list[posicionId].name, list[posicionId].lastName);
-		return 0;  		// eliminacion confirmada
+			return 0;  		// eliminacion confirmada
 		}else
-		{
-		return 1;			// eliminacion cancelada
-		}
+			{
+			return 1;			// eliminacion cancelada
+			}
 
 	}
 
 
 }
 
-int posicionDelId (Employee list[], int len, int id)
-{
-	int i;
-	int posicionId;
-
-	for(i=0; i<len; i++)
-		{
-			if(list[i].isEmpty==FALSE && id==list[i].id) //no valido si esta vacio porque ya lo hice en el buscar, aca quiero chequear la posicion del id
-			{
-				posicionId=i;
-				break;
-			}
-		}
-	return posicionId;
-}
 
 
+/** \brief Modify a Employee by Id (name, lastName, sector or salary)
+*
+* \param list Employee*
+* \param len int
+* \param id int
+* \return int Return (-1) if Error [Invalid length or NULL pointer or if can'tfind a employee] - (0) if Ok - (1) modify cancelled.
+*
+*/
 int modifyEmployee (Employee list[], int len, int id)
 {
 	int posicionId;
-	int situacion;
 	char respuesta;
+	int situacion =-1;
 
-	situacion = findEmployeeById(list, len, id);
+	posicionId = findEmployeeById(list, len, id);
 
 
-	if(situacion!=-1)
+	if(posicionId!=-1)
 	{
-		posicionId = posicionDelId(list, len, id);
 
 		printf("\nEsta por modificar el ID %d - %s %s -",id, list[posicionId].name, list[posicionId].lastName);
 		printf("\n\nSeleccione lo que desea modificar: ");
@@ -332,6 +343,13 @@ return situacion;
 
 
 
+/** \brief pedirle al usuario un string para cambiar nombre o apellido y formatearlo (paso a minuscula el string y primeras letras mayusculas)
+* \param char texto, texto que se informa en el printf para reutilizar la funcion
+* \param list Employee*
+* \param len int
+* \param index int
+* \return 0 modify correct
+* 		  1 modify canceled **/
 int modificarString(char texto[], Employee list[], int len, int posicionId)
 {
 	char nuevoString[51];
@@ -378,12 +396,21 @@ int modificarString(char texto[], Employee list[], int len, int posicionId)
 	}
 }
 
+
+
+/** \brief pedirle al usuario un flotante para cambiar sueldo
+* \param char texto, texto que se informa en el printf para reutilizar la funcion
+* \param list Employee*
+* \param len int
+* \param index int
+* \return 0 modify correct
+* 		  1 modify canceled **/
 int modificarFlotante(char texto[], Employee list[], int len, int posicionId)
 {
 	float nuevoFloat;
 	char respuesta;
 
-	// if(strcmp(texto,"sueldo")==0)      // base por si tuviese mas int a modificar
+	// if(strcmp(texto,"sueldo")==0)      // base por si tuviese mas float a modificar
 	printf("\nEl %s actual es $%.2f.",texto, list[posicionId].salary);
 	printf("\nIngrese el nuevo %s: ",texto);
 	scanf("%f", &nuevoFloat);
@@ -404,6 +431,15 @@ int modificarFlotante(char texto[], Employee list[], int len, int posicionId)
 	}
 }
 
+
+
+/** \brief pedirle al usuario un entero para cambiar sector
+* \param char texto, texto que se informa en el printf para reutilizar la funcion
+* \param list Employee*
+* \param len int
+* \param index int
+* \return 0 modify correct
+* 		  1 modify canceled **/
 int modificarEntero(char texto[], Employee list[], int len, int posicionId)
 {
 	int nuevoInt;
@@ -431,11 +467,16 @@ int modificarEntero(char texto[], Employee list[], int len, int posicionId)
 }
 
 
+
+/** \brief mostrar menu de opciones al usuario
+* \param void
+* \return respuesta elegida **/
 int mostrarMenu(void)
 {
 	int respuesta;
 
-	printf("BASE DE EMPLEADOS");
+	printf("   BASE DE EMPLEADOS    \n");
+	printf("************************");
 	printf("\nElija una de las siguientes opciones:");
 	printf("\n1. ALTAS.");
 	printf("\n2. MODIFICAR.");
@@ -449,9 +490,10 @@ int mostrarMenu(void)
 }
 
 
-
-
-
+/** \brief preguntar si ya se carga un empleado
+* \param flag que se habilita con la opcion de add employee
+* \return -1 no se cargo empleado
+* 		   1 ya se cargo un empleado, se habilita el resto del menu **/
 int preguntarPrimeraCarga(int flag)
 {
 	int estado;
@@ -467,13 +509,23 @@ int preguntarPrimeraCarga(int flag)
 }
 
 
-int pedirleIdAlUsuario (Employee list[], int len)
+/** \brief pedirle al usuario un un id de la lista que se muestra en pantalla
+* \param list Employee*
+* \param len int
+* el do while sigue hasta que el usuario elija un id correcto, si se arrepiente, en la siguiente funcion puede cancelar la modificacion o eliminacion
+* \return id encontrado  **/
+int pedirleIdAlUsuario (Employee list[], int len, char texto[])
 {
     int busquedaId;
     int idIngresadoPorUsuario;
     int estadoMostrar;
 
-    ordenarEmployeesPorId(list, len); //ordeno array por id de menor a mayor
+    ordenarEmployeesPorId(list, len); //ordeno array por id de menor a mayor para que esten prolijos a la vista del usuario
+
+    printf("\n--------------------------------------------------------");
+    printf("\n                   %s EMPLEADO                   ",texto);
+    printf("\n--------------------------------------------------------\n");
+
 
  do
  {
@@ -489,11 +541,12 @@ int pedirleIdAlUsuario (Employee list[], int len)
 
     switch(busquedaId)
 	{
-	        case 1: //se encontro el ID
-	        break;
-
 	        case -1: //id inexistente
 	        printf("Error. ID empleado inexistente. Ingrese uno valido.\n\n");
+	        break;
+
+	        default: //se encontro el ID
+	        break;
 
 	 }
 	}
@@ -507,12 +560,12 @@ int pedirleIdAlUsuario (Employee list[], int len)
 
 
 
-/** \brief find an Employee by Id en returns the index position in array.
+/** \brief find an Employee by Id
 *
 * \param list Employee*
 * \param len int
 * \param id int
-* \return Return employee index position or (-1) if [Invalid length or NULL
+* \return Return (1) id   or (-1) if [Invalid length or NULL
 pointer received or employee not found]
 *
 */
@@ -523,7 +576,7 @@ int findEmployeeById(Employee list[], int len, int idIngresadoPorUsuario)
 	    {
 	        if(list[i].isEmpty==FALSE && idIngresadoPorUsuario==list[i].id)
 	        {
-	                 return 1; //se encontro el id
+	                 return i; //devuelvo indice del id
 	                 break;
 	        }
 	    }
@@ -532,12 +585,23 @@ int findEmployeeById(Employee list[], int len, int idIngresadoPorUsuario)
 
 
 
-
+/** \brief imprime mensajes en pantalla segun la situacion que reciba
+* \param int situacion
+* \param char texto a printear
+* \return void
+*/
 void analizarSituacion (int situacion, char texto[])
 {
 	if(situacion==-1)
 	{
+		if((strcmp(texto,"Modificacion")==0) || (strcmp(texto,"Eliminacion")==0))
+		{
 		printf("\nID no encontrado, intente nuevamente.\n\n");     //ID no encontrado
+		}
+		else
+		{
+		printf("\nError. No hay espacio.\n\n");
+		}
 	}
 	else if(situacion==0)
 	{
@@ -550,10 +614,18 @@ void analizarSituacion (int situacion, char texto[])
 }
 
 
-void sortEmployees(Employee* list, int len, int order)  //Listado de los empleados ordenados alfabéticamente por Apellido y Sector
+
+/** \brief Sort the elements in the array of employees, the argument order indicate UP or DOWN order
+* \param list Employee*
+* \param len int
+* \param order int [1] indicate UP - [0] indicate DOWN
+* \return int Return (-1) if Error [Invalid length or NULL pointer] - (0) if Ok
+*/
+int sortEmployees(Employee* list, int len, int order)  //Listado de los empleados ordenados alfabéticamente por Apellido y Sector
 {
 	int i;
 	int j;
+	int resultado=-1;
 	Employee auxiliarEmployee;
 
 	for(i=0;i<len-1;i++)
@@ -567,16 +639,26 @@ void sortEmployees(Employee* list, int len, int order)  //Listado de los emplead
 					auxiliarEmployee = list[i];
 					list[i]=list[j];
 					list[j]=auxiliarEmployee;
+					resultado=0;
 				}
 
 			}
 		}
 	}
 
+    printf("\n----------------------------------------------------------");
+    printf("\n                   INFORMES ESTADISTICOS              ");
+    printf("\n----------------------------------------------------------\n");
+
+return resultado;
 }
 
 
-
+/** \brief Sort the elements in the array of employees, por id de menor a mayor
+* \param list Employee*
+* \param len int
+* \return void
+*/
 void ordenarEmployeesPorId (Employee* list, int len)  //Listado de los empleados ordenados id menor a mayor
 {
 	int i;
@@ -600,4 +682,118 @@ void ordenarEmployeesPorId (Employee* list, int len)  //Listado de los empleados
 		}
 	}
 
+}
+
+
+
+/** \brief suma cantidad de empleados activos
+* \param list Employee*
+* \param len int
+* \return cantidad empleados
+*/
+int obtenerCantidadEmpleados (Employee* list, int len)
+{
+	int i;
+	int cantidadEmpleados=0;
+
+	for(i=0;i<len;i++)
+	{
+		if(list[i].isEmpty==FALSE)
+		{
+		cantidadEmpleados++;
+		}
+	}
+return cantidadEmpleados;
+}
+
+
+
+/** \brief suma sueldos de empleados activos
+* \param list Employee*
+* \param len int
+* \return total de sueldos
+* */
+float obtenerTotalSueldos (Employee* list, int len)
+{
+	int i;
+	float sumaSueldos=0;
+
+	for(i=0;i<len;i++)
+	{
+		if(list[i].isEmpty==FALSE)
+		{
+		sumaSueldos=sumaSueldos+ list[i].salary;
+		}
+	}
+return sumaSueldos;
+}
+
+
+
+/** \brief promedio de sueldos de los empleados activos
+* \param float total sueldos
+* \param int cantidad de empleados
+* \return sueldo promedio
+* */
+float promediarSueldos (float totalSueldos, int cantidadEmpleados)
+{
+	float promedio=-1;
+
+	if(cantidadEmpleados!=0)
+	{
+	promedio=totalSueldos/cantidadEmpleados;
+	}
+
+return promedio;
+}
+
+
+
+/** \brief cuenta la cantidad de empleados que superen el promedio de sueldos de los empleados activos
+* \param list Employee*
+* \param len int
+* \param float sueldo promedio
+* \return cantidad empleados con sueldos mayores al promedio
+* */
+int contarEmpleadosMayorAlPromedio (Employee* list, int len, float promedioSueldos)
+{
+	int cantidadEmpleadosMayorPromedio=0;
+	int i;
+
+	for(i=0; i<len; i++)
+	{
+		if(list[i].isEmpty==FALSE && list[i].salary>promedioSueldos)
+		{
+			cantidadEmpleadosMayorPromedio++;
+		}
+	}
+
+
+	return cantidadEmpleadosMayorPromedio;
+}
+
+
+
+/** \brief muestra estadisticas (llama a funciones para sacar total, cantidad y promedio de sueldos)
+* \param list Employee*
+* \param len int
+* \return void
+* */
+void mostrarEstadisticas (Employee* list, int len)
+{
+	int cantidadEmpleados;
+	float totalSueldos;
+	float promedioSueldos;
+	int cantidadEmpleadosConSueldoMayorAlPromedio;
+
+	cantidadEmpleados= obtenerCantidadEmpleados(list, len);
+	totalSueldos= obtenerTotalSueldos(list, len);
+	promedioSueldos = promediarSueldos(totalSueldos,cantidadEmpleados);
+	cantidadEmpleadosConSueldoMayorAlPromedio = contarEmpleadosMayorAlPromedio(list, len, promedioSueldos);
+
+	printf("\n\n");
+	printf("TOTAL DE SUELDOS: $ %.2f\n", totalSueldos);
+	printf("PROMEDIO DE SUELDOS: $ %.2f\n", promedioSueldos);
+	printf("EMPLEADOS QUE SUPERAN EL SUELDO PROMEDIO: %d\n", cantidadEmpleadosConSueldoMayorAlPromedio);
+	printf("\n\n");
 }
