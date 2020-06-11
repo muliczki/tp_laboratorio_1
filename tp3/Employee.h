@@ -28,5 +28,8 @@ int employee_getSueldo(Employee* this,int* sueldo);
 
 int employee_CompareById(void* e1, void* e2);
 int employee_CompareByName(void* e1, void* e2);
+int employee_CompareByHours(void* e1, void* e2);
+int employee_CompareBySalary(void* e1, void* e2);
+
 
 #endif // employee_H_INCLUDED
