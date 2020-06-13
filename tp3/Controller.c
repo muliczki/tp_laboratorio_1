@@ -111,30 +111,7 @@ int controller_addEmployee(LinkedList* pArrayListEmployee, int id)
     return ret;
 }
 
-int mostrarUnEmpleado (Employee* aux, int* idAux, char* nombreAux, int* sueldoAux, int* horasAux)
-{
-	int ret=-1;
-	int pruebaId;
-	int pruebaNombre;
-	int pruebaSueldo;
-	int pruebaHoras;
 
-	if(aux!=NULL && idAux!=NULL && nombreAux!=NULL && sueldoAux!=NULL && horasAux!=NULL)
-	{
-	pruebaId= employee_getId(aux, idAux);
-	pruebaNombre= employee_getNombre(aux, nombreAux);
-	pruebaSueldo= employee_getSueldo(aux, sueldoAux);
-	pruebaHoras=employee_getHorasTrabajadas(aux, horasAux);
-
-	if(pruebaId==0 && pruebaNombre==0 && pruebaSueldo==0 && pruebaHoras==0)
-		{
-		printf("%5d - %20s - %15d - %10d\n", *idAux, nombreAux,  *horasAux, *sueldoAux);
-		ret=0;
-		}
-	}
-
-	return ret;
-}
 
 
 /** \brief Modificar datos de empleado
@@ -171,11 +148,7 @@ int controller_editEmployee(LinkedList* pArrayListEmployee)
 		printf("\n%5s - %20s - %15s - %10s\n","ID", "NOMBRE", "HS TRABAJADAS", "SUELDO");
 		ret= mostrarUnEmpleado(aux, &idAux, nombreAux, &sueldoAux, &horasAux);
 
-		printf("\nElija que campo desea modificar:\n");
-		printf("1. Nombre.\n");
-		printf("2. Horas trabajadas.\n");
-		printf("3. Sueldo.\n");
-		printf("4. Volver a la pantalla principal.\n");
+		printf("\nElija que campo desea modificar:\n1. Nombre.\n2. Horas trabajadas.\n3. Sueldo.\n4. Volver a la pantalla principal.\n");
 		getInt(&campo, "Ingrese su opcion: ", 1, 4, "Ingrese una opcion valida: ");
 
 		switch(campo)
@@ -479,9 +452,15 @@ int controller_saveAsBinary(char* path , LinkedList* pArrayListEmployee)
 }
 
 
+/** \brief buscarIdSinUso>>> SE LA UTILIZA UNA UNICA VEZ CUANDO SE LEE UN ARCHIVO PARA SABER CUAL ES EL ULTIMO ID UTILIZADO.
+ *
+ * \param pArrayListEmployee LinkedList*
+ * \return int >>> PRIMER ID PARA USAR. DESPUES SE VA AUTOINCREMENTANDO (EN EL MAIN) EL ID CADA VEZ QUE SE AGREGA UN EMPLEADO
+ *
+ */
 int buscarIdSinUso (LinkedList* pArrayListEmployee)
 {
-	int idNuevo;
+	int idNuevo=-1; //ERROR
 	int largo;
 	int i;
 	Employee* aux;
@@ -495,11 +474,14 @@ int buscarIdSinUso (LinkedList* pArrayListEmployee)
 		for(i=0; i<largo ;i++)
 		{
 			aux = ll_get(pArrayListEmployee,i);
-			employee_getId(aux, &idAux);
-
-			if(i==0 || idAux > maximo)
+			if(aux!=NULL)
 			{
-				maximo=idAux;
+				employee_getId(aux, &idAux);
+
+				if(i==0 || idAux > maximo)
+				{
+					maximo=idAux;
+				}
 			}
 		}
 
@@ -510,9 +492,17 @@ int buscarIdSinUso (LinkedList* pArrayListEmployee)
 	return idNuevo;
 }
 
+
+/** \brief buscarId>>> SE LA UTILIZA PARA CORROBORAR QUE EL ID INGRESADO POR EL USUARIO EXISTE EN LA LL
+ *
+ * \param pArrayListEmployee LinkedList*
+ * \param idingresado int
+ * \return int >>> indice donde se ubica el id ingresado en la LL / -1 ID inexistente
+ *
+ */
 int buscarId(LinkedList* pArrayListEmployee, int idIngresadoPorUsuario)
 {
-	int indice=-1;
+	int indice=-1; //ERROR
     int i;
     int largo;
     int idAux;
@@ -544,7 +534,12 @@ int buscarId(LinkedList* pArrayListEmployee, int idIngresadoPorUsuario)
 
 
 
-
+/** \brief buscarIndice>>> SE LE PIDE ID AL USUARIO, SE VERIFICA QUE ESTE Y DEVUELVE EL INDICE
+ *
+ * \param pArrayListEmployee LinkedList*
+ * \return int >>> indice donde se ubica el id ingresado en la LL
+ *
+ */
 int buscarIndice (LinkedList* pArrayListEmployee)
 {
 

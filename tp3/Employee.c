@@ -371,3 +371,30 @@ int employee_CompareBySalary(void* e1, void* e2)
 
     return valor;
 }
+
+
+
+int mostrarUnEmpleado (Employee* aux, int* idAux, char* nombreAux, int* sueldoAux, int* horasAux)
+{
+	int ret=-1;
+	int pruebaId;
+	int pruebaNombre;
+	int pruebaSueldo;
+	int pruebaHoras;
+
+	if(aux!=NULL && idAux!=NULL && nombreAux!=NULL && sueldoAux!=NULL && horasAux!=NULL)
+	{
+	pruebaId= employee_getId(aux, idAux);
+	pruebaNombre= employee_getNombre(aux, nombreAux);
+	pruebaSueldo= employee_getSueldo(aux, sueldoAux);
+	pruebaHoras=employee_getHorasTrabajadas(aux, horasAux);
+
+	if(pruebaId==0 && pruebaNombre==0 && pruebaSueldo==0 && pruebaHoras==0)
+		{
+		printf("%5d - %20s - %15d - %10d\n", *idAux, nombreAux,  *horasAux, *sueldoAux);
+		ret=0;
+		}
+	}
+
+	return ret;
+}

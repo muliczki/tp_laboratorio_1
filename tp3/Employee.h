@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 #ifndef employee_H_INCLUDED
 #define employee_H_INCLUDED
 typedef struct
