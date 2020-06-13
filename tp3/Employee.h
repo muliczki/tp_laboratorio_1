@@ -30,6 +30,8 @@ int employee_CompareById(void* e1, void* e2);
 int employee_CompareByName(void* e1, void* e2);
 int employee_CompareByHours(void* e1, void* e2);
 int employee_CompareBySalary(void* e1, void* e2);
+int mostrarUnEmpleado (Employee* aux, int* idAux, char* nombreAux, int* sueldoAux, int* horasAux);
+
 
 
 #endif // employee_H_INCLUDED

@@ -1,8 +1,6 @@
 #include "parser.h"
 #include <stdlib.h>
 
-//int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee);
-//int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee);
 
 /** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo texto).
  *
@@ -14,35 +12,39 @@
 
 int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 {
+	int ret=-1; //error
 	Employee* aux;
 	char id[500], nombre[500], horas[500], sueldo[500];
 	int datos;
 
-	fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n", id,nombre, horas,sueldo);
+	if(pFile!=NULL && pArrayListEmployee!=NULL)
+	{
 
-	 while(!feof(pFile))
-	 {
-			 if(feof(pFile))
-			 {
-				 break;
-			 }
+		 datos = fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n", id,nombre, horas,sueldo); // leo la primera linea para no guardar los titulos
 
-			 datos = fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n", id,nombre, horas,sueldo);
-
-			 if(datos==4) // para chequear que haya leido X cantidad de datos
-			 {
-				 aux = employee_newParametros(id, nombre,horas, sueldo);
-
-				 if(aux!=NULL)
-				 {
-					 ll_add(pArrayListEmployee, aux);
+		 while(!feof(pFile)) //ejecuto mientras no sea el final del archivo
+		 {
+				 if(feof(pFile)){
+					 break;
 				 }
-			 }
+
+				 datos = fscanf(pFile, "%[^,],%[^,],%[^,],%[^\n]\n", id,nombre, horas,sueldo); // leo cada linea de datos, asigno variables TEXTO
+
+				 if(datos==4) // para chequear que haya leido X cantidad de datos
+				 {
+					 aux = employee_newParametros(id, nombre,horas, sueldo); //guardo nuevo empleado en puntero auxiliar
+
+					 if(aux!=NULL)
+					 {
+						 ret= ll_add(pArrayListEmployee, aux); //si encuentro espacio, lo agrego a la LL. si lo agrego DEVUELVE 0>>> ok
+					 }
+				 }
+
+		}
 	}
 
 
-
-    return 1;
+    return ret;
 }
 
 /** \brief Parsea los datos los datos de los empleados desde el archivo data.csv (modo binario).
@@ -57,31 +59,31 @@ int parser_EmployeeFromText(FILE* pFile , LinkedList* pArrayListEmployee)
 int parser_EmployeeFromBinary(FILE* pFile , LinkedList* pArrayListEmployee)
 {
 
+	int ret=-1; //error
 	Employee* aux;
 	int dato;
 
-	while(!feof(pFile))
+	if(pFile!=NULL && pArrayListEmployee!=NULL)
 	{
-
-		if(feof(pFile))
+		while(!feof(pFile))
 		{
-			 break;
-		}
-		 aux=employee_new();
-		 if(aux!=NULL)
-		 {
-			 dato= fread(aux, sizeof(Employee), 1, pFile);
+			if(feof(pFile)){
+				 break;
+			}
 
-			 if(dato!=0) // para chequear que haya leido UNA ESTRUCTURA de datos
+			 aux=employee_new(); //pido espacio para LEER un nuevo empleado aux
+			 if(aux!=NULL)
 			 {
-			 ll_add(pArrayListEmployee, aux);
-			 }
-		 }
+				 dato= fread(aux, sizeof(Employee), 1, pFile); //leo una estructura del archivo y la escribo en el auxiliar
 
+				 if(dato==1) // para chequear que haya leido UNA ESTRUCTURA de datos
+				 {
+				 ret = ll_add(pArrayListEmployee, aux);  //si lei un dato, lo agrego a la LL. si lo agrego DEVUELVE 0>>> ok
+				 }
+			 }
+
+		}
 	}
 
-
-
-
-    return 1;
+    return ret;
 }
