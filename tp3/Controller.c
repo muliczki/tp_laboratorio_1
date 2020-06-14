@@ -341,7 +341,7 @@ int controller_sortEmployee(LinkedList* pArrayListEmployee)
 			break;
 
 		case 5: //anular ordenamiento
-			ret=1; //opcion ANULAR "analizar situacion" en el main
+			ret=2; //opcion ANULAR "analizar situacion" en el main
 			break;
 
 	}
