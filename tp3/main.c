@@ -122,7 +122,8 @@ int main()
 				   break;
 
 				case 10:
-					analizarSituacion(0, "GRACIAS POR UTILIZAR NUESTRO SISTEMA"); // 0 opcion para que printee el paramentro
+					situacion= ll_deleteLinkedList(listaEmpleados); //borro la lista
+					analizarSituacion(situacion, "GRACIAS POR UTILIZAR NUESTRO SISTEMA");
 				   break;
 
 			}
